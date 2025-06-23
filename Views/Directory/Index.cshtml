@@ -1,0 +1,39 @@
+﻿using Microsoft.Graph.Models;
+
+
+@* @{ *@
+@*     ViewData["Title"] = "Home Page"; *@
+@* } *@
+
+@* <div class="text-center"> *@
+@*     <h1 class="display-4">Welcome</h1> *@
+@*     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
+@* </div> *@
+
+@model List<Microsoft.Graph.Models.User>
+
+@{
+	ViewData["Title"] = "User Directory";
+}
+
+<h2>User Directory</h2>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Display Name</th>
+			<th>Email</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var user in Model)
+		{
+			<tr>
+				<td>@user.DisplayName</td>
+				<td>@user.Mail</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<a class="btn btn-primary" href="/HealthCheck">Go to Health Check</a>

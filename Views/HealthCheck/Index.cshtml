@@ -1,0 +1,20 @@
+﻿
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+@{
+}
+
+@model dynamic
+
+
+@{
+    ViewData["Title"] = "Health Check";
+}
+
+<h2>Health Check</h2>
+
+<p>Click the button below to run a health check on your Microsoft 365 directory.</p>
+
+<form method="post" asp-action="RunHealthCheck">
+    <button type="submit" class="btn btn-danger">Run Health Check</button>
+</form>
