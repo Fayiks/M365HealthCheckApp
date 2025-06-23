@@ -1,29 +1,48 @@
+using M365HealthCheckApp.Services;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.TokenCacheProviders.InMemory;
+using Microsoft.Identity.Web.UI; 
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+ 
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+  .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+
+  
+builder.Services.AddControllersWithViews()
+    .AddMicrosoftIdentityUI();
+
+builder.Services.AddInMemoryTokenCaches();
+
+  
+builder.Services.AddTokenAcquisition();
+
+// MVC Controllers  
 builder.Services.AddControllersWithViews();
+
+// App Services  
+builder.Services.AddScoped<GraphService>();
+builder.Services.AddScoped<PowerShellService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware pipeline  
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+  name: "default",
+  pattern: "{controller=Directory}/{action=Index}/{id?}");
 
 app.Run();
